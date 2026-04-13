@@ -33,24 +33,3 @@ jobs:
 
       - name: Test
         run: npm test
-
-      - name: Update test count badge
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          npx vitest run --reporter=json > vitest-results.json 2>/dev/null || true
-          PASSED=$(node -e "const j=JSON.parse(require('fs').readFileSync('vitest-results.json','utf8')); console.log(j.numPassedTests)")
-          TOTAL=$(node -e "const j=JSON.parse(require('fs').readFileSync('vitest-results.json','utf8')); console.log(j.numTotalTests)")
-          if [ "$PASSED" = "$TOTAL" ]; then
-            COLOR="success"
-            MESSAGE="${PASSED} passing"
-          else
-            COLOR="critical"
-            MESSAGE="${PASSED}/${TOTAL} passing"
-          fi
-          echo "{\"schemaVersion\":1,\"label\":\"tests\",\"message\":\"${MESSAGE}\",\"color\":\"${COLOR}\",\"namedLogo\":\"vitest\",\"style\":\"flat-square\"}" > badge.json
-          curl -s -X PATCH \
-            -H "Authorization: token ${{ secrets.GIST_TOKEN }}" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/gists/${{ vars.TEST_BADGE_GIST_ID }}" \
-            -d "$(jq -n --arg content "$(cat badge.json)" '{files:{"test-badge.json":{content:$content}}}')"
-          rm -f vitest-results.json badge.json
