@@ -1,0 +1,57 @@
+{
+  "project": {
+    "name": "my-project",
+    "repoUrl": "https://github.com/your-org/your-repo.git",
+    "mainBranch": "main"
+  },
+
+  "agents": {
+    "backend": {
+      "displayName": "Backend Engineer",
+      "agentId": "backend-engineer",
+      "briefPath": "docs/briefs/backend.md",
+      "globalRulesPath": ".github/copilot-instructions.md",
+      "chatmodeFile": ".github/agents/backend.md",
+      "ownedPaths": [
+        "src/backend/**",
+        "tests/unit/backend/**"
+      ],
+      "branchPrefix": "backend"
+    },
+    "frontend": {
+      "displayName": "Frontend Engineer",
+      "agentId": "frontend-engineer",
+      "briefPath": "docs/briefs/frontend.md",
+      "globalRulesPath": ".github/copilot-instructions.md",
+      "chatmodeFile": ".github/agents/frontend.md",
+      "ownedPaths": [
+        "src/frontend/**",
+        "tests/unit/frontend/**"
+      ],
+      "branchPrefix": "frontend"
+    }
+  },
+
+  "models": {
+    "architect": "claude-sonnet-4-6",
+    "coAgent": "claude-sonnet-4-6",
+    "fallback": "claude-sonnet-4-6"
+  },
+
+  "settings": {
+    "reviewMode": "copilot",
+    "copilotReviewPollIntervalSeconds": 30,
+    "copilotReviewTimeoutMinutes": 10,
+    "maxReviewCycles": 3,
+    "monitorPollIntervalSeconds": 15,
+    "maxRetries": 2,
+    "retryBaseDelaySeconds": 5,
+    "launchStaggerSeconds": 2,
+    "maxBudgetUsd": 10,
+    "maxBatchBudgetUsd": 50,
+    "projectRulesFile": ".ai-team/project-rules.md",
+    "notifications": {
+      "enabled": true
+    }
+  }
+}
